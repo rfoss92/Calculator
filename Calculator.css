@@ -1,7 +1,7 @@
 body {
   font-size: 20px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) 50%),
-  url('/img/deskCoffee.png'); 
+  url('deskCoffee.png'); 
 }
 .calcBG {
   background: #8b8989;
