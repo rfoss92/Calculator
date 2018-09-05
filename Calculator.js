@@ -1,53 +1,54 @@
 (calculator => {
 
-	let bottomNo = "";
 	let topNo = "";
-	let buttonValue = 0;
+	let bottomNo = "";
 	let solution = "";
-	let operators = ["+","-","/","*"];
 
-	$("button").click(function() {
-		buttonValue = $(this).val();
+	$("button").click(addToBottomOrTop);
+	$("#equalButton").click(equalize);
+	$("#ac").click(resetAll);
+	$("#ce").click(resetBottom);
 
-		if (buttonValue != "=" && operators.indexOf(buttonValue) > -1){
-				
-			solution += bottomNo;
-			solution = eval(solution);
-			$('#bottom').html(solution);		
-			solution += buttonValue;
-
-			topNo += bottomNo;		
-			topNo += buttonValue;
-			$('#top').html(topNo);
-			bottomNo = "";
-
+	function addToBottomOrTop(){
+		let buttonValue = $(this).val();
+		if (!isNaN(buttonValue) || buttonValue === '.'){
+			addToBottom(buttonValue);		
 		} else if (buttonValue != "=") {
-			bottomNo += buttonValue;
-			$('#bottom').html(bottomNo);
+			addToRunningTotal(buttonValue);
+			addToTop(buttonValue);
 		}
-
-	});
-
-	$("#equalButton").click( () => {
+	}
+	function addToBottom(buttonValue){
+		bottomNo += buttonValue;
+		$('#bottom').html(bottomNo);	
+	}	
+	function addToRunningTotal(buttonValue){
 		solution += bottomNo;
-		solution = eval(solution);
-		$('#top').html("&nbsp");
+		solution = Math.floor(eval(solution) * 100) / 100;
 		$('#bottom').html(solution);		
+		solution += buttonValue;
+	}
+	function addToTop(buttonValue){
+		topNo += bottomNo += buttonValue;		
+		$('#top').html(topNo);
+		bottomNo = "";
+	}
+	function equalize(){
+		solution += bottomNo;
+		solution = Math.floor(eval(solution) * 100) / 100;
+		$('#bottom').html(solution);	
+		$('#top').html("&nbsp");	
 		topNo = solution;
 		bottomNo = "";
-	});
-
-	$("#ac").click( () => {
+	}
+	function resetAll(){
 		$('#top').html("&nbsp");
 		$('#bottom').html(0);
-		topNo = "";
-		bottomNo = "";
-		solution = "";
-	});
-
-	$("#ce").click( () => {
+		solution = topNo = bottomNo = "";		
+	}
+	function resetBottom(){
 		$('#bottom').html(0);
 		bottomNo = "";	
-	});
+	}
 
 })();
